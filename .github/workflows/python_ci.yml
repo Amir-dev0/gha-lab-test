@@ -4,7 +4,11 @@ jobs:
   test-program:
     runs-on: ubuntu-latest
     steps:
-      - run: apt update && git clone https://github.com/Amir-dev0/gha-lab-1.git
-      - run: cd gha-lab-1
-      - run: pip install -r requirements.txt
-      - run: pytest test_program.py
+      - name: Clone repository
+        run: git clone https://github.com/Amir-dev0/gha-lab-1.git
+      - name: changing working directory  
+        run: cd gha-lab-1
+      - name: Installing requirements
+        run: pip install -r requirements.txt
+      - name: Testing  
+        run: pytest test_program.py

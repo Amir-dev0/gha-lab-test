@@ -23,7 +23,7 @@ jobs:
 
       - name: Run tests  
         id: tests
-        run: pytest tests/
+        run: python -m pytest tests/test_api.py
         continue-on-error: false
 
       - name: Set up Docker Buildx

@@ -1,21 +1,47 @@
 name: Practice github action
-on: [push]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 jobs:
-  test-program:
+  test-and-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Set up Python 
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: '3.11'
           
-      - name: Installing requirements
+      - name: Installing dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run tests  
-        run: pytest test_program.py
+        id: tests
+        run: pytest tests/
+        continue-on-error: false
+
+      - name: Set up Docker Buildx
+        if: success()
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build docker image
+        if: success()
+        run: |
+         docker build -t mywebserver:latest .
+
+      - name: Run Docker container
+        if: soccess()
+        run: |
+          docker run -d -p 8080:80 --name webserver mywebserver:latest
+
+      - name: Test container is running
+        if: success()
+        run: |
+          sleep 5
+          docker ps | grep mywebserver     

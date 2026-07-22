@@ -1,0 +1,11 @@
+# HTTP client for API calls
+requests==2.31.0
+
+# Testing framework
+pytest==7.4.0
+
+# Mocking library for pytest
+pytest-mock==3.11.1
+
+# Linter for code quality (development only)
+pylint==3.0.0

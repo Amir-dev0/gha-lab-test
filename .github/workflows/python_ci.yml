@@ -9,8 +9,6 @@ jobs:
 
       - name: Installing requirements
         run: pip install -r requirements.txt
-        working-directory: gha-lab-1
 
       - name: Testing  
         run: pytest test_program.py
-        working-directory: gha-lab-1

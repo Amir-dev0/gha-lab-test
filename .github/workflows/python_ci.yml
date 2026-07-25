@@ -29,6 +29,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+          cache-dependency-path: 'requirements.txt'
       - name: Installing dependencies
         run: |
           python -m pip install --upgrade pip
@@ -62,3 +64,18 @@ jobs:
           sleep 5
           docker ps | grep webserver     
           curl http://localhost:8080
+          {
+            echo "## 🚀 Deployment Summary"
+            echo ""
+            echo "| Key | Value |"
+            echo "|-----|-------|"
+            echo "| **Image Tag** | \`mywebserver:${{ github.sha }}\` |"
+            echo "| **Commit SHA** | \`${{ github.sha }}\` |"
+            echo "| **Short SHA** | \`${{ github.sha }}\` |"
+            echo "| **Test Status** | ✅ All tests passed |"
+            echo "| **Container URL** | \`http://localhost:8080\` |"
+            echo "| **Branch** | \`${{ github.ref_name }}\` |"
+            echo "| **Workflow** | \`${{ github.workflow }}\` |"
+            echo "| **Triggered By** | \`${{ github.actor }}\` |"
+            echo "| **Run ID** | \`${{ github.run_id }}\` |"
+          } >> $GITHUB_STEP_SUMMARY
